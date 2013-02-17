@@ -128,25 +128,22 @@ class GrabImages
 
   end
 
-  def resize(w,h=nil)
+  def resize_image(w,h=nil)
     return if w.nil?
-
-    raise "Width must be a number!"  unless w.is_a?(Number)
-    raise "Width must be greater than 1!" if w < 1
-
     if h.nil?
       r = "#{w}"
     else
-      raise "Height must be a number!"  unless h.is_a?(Number)
-      raise "Height must be grater than 1!" if h < 1
       r = "#{w}x#{h}"
     end
 
     mogrify = `which mogrify`.chomp
     raise "Must have ImageMagick installed (no mogrify)!" if mogrify.empty?
 
-    return = Kernel.system("#{mogrify} -resize #{r} #{self.filename}")
-    
+    result = Kernel.system("#{mogrify} -resize #{r} #{self.filename}")
+    unless result
+      raise "#{mogrify} failed: #{result} for file #{self.filename}"
+    end
+        
     self
       
   end
