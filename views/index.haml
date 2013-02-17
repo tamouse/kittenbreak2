@@ -4,6 +4,8 @@
     %title KittenBreak 2!
     %script{:src => 'http://code.jquery.com/jquery-1.9.1.min.js'}
     %link{:rel => "stylesheet", :href=>"http://twitter.github.com/bootstrap/assets/css/bootstrap.css"}
+    %script{:src => 'http://twitter.github.com/bootstrap/assets/js/bootstrap.min.js'}
+
   %body
     .navbar
       .navbar-inner
@@ -17,10 +19,17 @@
       .span4.offset2
         #kitten
           %img#kitten_img{:width => '300'}
+          #kitten_loading
+            .alert.alert-info
+              new image loading, please wait!
+
     :javascript
+      $("#kitten_loading").hide();
       var next_kitten = function() {$.ajax({url: "/next"}).done(
         function(x){
+          $("#kitten_loading").show();
           $("#kitten_img").attr("src",x);
+          $("#kitten_loading").hide();
         })};
       $("#kitten_img").click(next_kitten);
       $("#kitten_img").click();
