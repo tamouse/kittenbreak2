@@ -39,6 +39,9 @@ class GrabImages
   # *options*:: (Optional) Set specific paramters for the instance's operation:
   #     *path*:: the path to prepend to the file name where it will be stored
   #     when fetched.
+  #     *resize*:: (boolean)
+  #     *width*:: width of image in pixels (default == 300)
+  #     *height*:: height of image in pixels (no default, not constrained if nil)
   #
   # == Examples
   #
@@ -50,7 +53,10 @@ class GrabImages
   #
   def initialize(uri,filename=nil,options={})
     @options = {
-      :path => '.'
+      :path => '.',
+      :resize => false,
+      :width => 300,
+      :height => nil
     }.merge(options)
 
     raise "Specified :path option must be a directory!" unless File.directory?(@options[:path])
@@ -100,7 +106,8 @@ class GrabImages
 
 
   # fetches the image based upon the imgurl into the filename
-  def fetch_image
+  def fetch_image(options={})
+    @options.merge(options)
     
     # from Curb samples
 
@@ -115,7 +122,35 @@ class GrabImages
       puts "=> '#{self.filename}'"
     end    
 
+    resize_image(@options[:width],@options[:height]) if @options[:resize]
+
+    self
+
   end
+
+  def resize(w,h=nil)
+    return if w.nil?
+
+    raise "Width must be a number!"  unless w.is_a?(Number)
+    raise "Width must be greater than 1!" if w < 1
+
+    if h.nil?
+      r = "#{w}"
+    else
+      raise "Height must be a number!"  unless h.is_a?(Number)
+      raise "Height must be grater than 1!" if h < 1
+      r = "#{w}x#{h}"
+    end
+
+    mogrify = `which mogrify`.chomp
+    raise "Must have ImageMagick installed (no mogrify)!" if mogrify.empty?
+
+    return = Kernel.system("#{mogrify} -resize #{r} #{self.filename}")
+    
+    self
+      
+  end
+
 
 end
 

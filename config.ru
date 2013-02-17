@@ -1,4 +1,4 @@
 require 'rubygems'
 require 'sinatra'
-require 'kb2.rb'
+require './kb2.rb'
 run KittenBreak
