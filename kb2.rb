@@ -9,18 +9,28 @@
   
 =end
 
- 
-require 'sinatra'
+require 'rubygems'
+require 'sinatra/base'
 require 'haml'
 require 'json'
 require './kittens.rb'
-kittens = Dir.chdir('public') {|cwd| Kittens.new('kittens')}
 
-get '/' , :provides => :html do
-  haml :index
+class KittenBreak < Sinatra::Base
+
+
+  kittens = Dir.chdir('public') {|cwd| Kittens.new('kittens')}
+
+  get '/' , :provides => :html do
+    haml :index
+  end
+
+  get '/next', :provides => :json do
+    kittens.next_random.to_json
+  end
+
+  get '/reload' do
+    Dir.chdir('public') {|cwd| kittens.reload }
+    redirect to('/')
+  end
+
 end
-
-get '/next', :provides => :json do
-  kittens.next_random.to_json
-end
-

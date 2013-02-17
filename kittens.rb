@@ -12,16 +12,21 @@
 class Kittens
 
   attr_reader :kittens
+  attr_accessor :path
 
   def initialize(path='.')
     raise "Not a directory!" unless File.directory?(path)
-    @kittens = Dir.entries(path).each.grep(/(jpe?g|png|gif)/i).map{|f| File.join(path,f)}
+    self.path = path
+    reload
   end
 
   def next_random
     @kittens[rand(@kittens.count)]
   end
 
+  def reload
+    @kittens = Dir.entries(path).each.grep(/(jpe?g|png|gif)/i).map{|f| File.join(path,f)}
+  end
 
   include Enumerable
 
