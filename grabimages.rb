@@ -96,11 +96,13 @@ class GrabImages
   def clean_filename(filename=nil)
     if filename.nil?
       uparts = URI.parse(self.imgurl)
-      filename = File.basename(uparts.path)
+      while uparts.path.match(/%25/)
+        uparts.path.gsub!(/%25/,'%')
+      end
+      filename = File.basename(URI.decode(uparts.path))
     end
-    filename.gsub(/(jpe?g|png|gif).*/,'\1')
-      .gsub(/^[^[:alnum:]]+/,'')
-      .gsub(/[^-_.[:alnum:]]+/,'')
+    filename.gsub!(/(jpe?g|png|gif).*$/,'\1')
+    filename.gsub!(/[^[:alnum:].]+/,'')
     File.join(@options[:path],filename)
   end
 
@@ -118,7 +120,14 @@ class GrabImages
     File.open(self.filename, 'wb') do|f|
       c.on_progress {|dl_total, dl_now, ul_total, ul_now| print "="; true }
       c.on_body {|data| f << data; data.size }
-      c.perform
+
+      begin
+        c.perform
+      rescue
+        puts " -- OOPS, curl failure, skipping"
+        return
+      end
+
       puts "=> '#{self.filename}'"
     end    
 
