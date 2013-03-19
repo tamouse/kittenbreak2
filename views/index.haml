@@ -1,15 +1,16 @@
 !!! 5
 %html{:lang => 'en'}
   %head
-    %title KittenBreak 2!
+    %title= "KittenBreak 2! #{genre}"
     %script{:src => 'http://code.jquery.com/jquery-1.9.1.min.js'}
     %link{:rel => "stylesheet", :href=>"http://twitter.github.com/bootstrap/assets/css/bootstrap.css"}
     %script{:src => 'http://twitter.github.com/bootstrap/assets/js/bootstrap.min.js'}
 
   %body
-    .navbar
+    %header.navbar
       .navbar-inner
-        %a.brand{:href => url('/')} KittenBreak 2!
+        %a.brand{:href => url('/')}
+          = "KittenBreak 2! #{genre}"
     .row-fluid
       .span4.offset2
         .alert.alert-block.alert-info
@@ -18,20 +19,25 @@
     .row-fluid
       .span4.offset2
         #kitten
-          %img#kitten_img{:width => '300'}
-          #kitten_loading
-            .alert.alert-info
-              new image loading, please wait!
+          %img#kitten_img{:width => '300',:src => wait_icon}
+
+    %footer.navbar.navbar-fixed-bottom
+      .navbar-inner
+        %ul.nav.nav-pills
+          - genres.each do |g|
+            %li
+              %a{:href => url("/#{g}")}
+                = g
+            
+          
 
     :javascript
-      $("#kitten_loading").hide();
       var next_kitten = function() {
-        $("#kitten_loading").show();
+        $("#kitten_img").attr("src","#{wait_icon}")
         $.ajax({url: "/next"}).done(
           function(x){
             $("#kitten_img").attr("src",x);
           });
-        $("#kitten_loading").hide();
         };
       $("#kitten_img").click(next_kitten);
       $("#kitten_img").click();

@@ -13,24 +13,40 @@ require 'rubygems'
 require 'sinatra/base'
 require 'haml'
 require 'json'
+require './genres.rb'
 require './kittens.rb'
 
 class KittenBreak < Sinatra::Base
 
+  genres = Genres.new
 
-  kittens = Dir.chdir('public') {|cwd| Kittens.new('kittens')}
+  genre = genres.first
 
+  kittens = Kittens.new("public/#{genre}")
+  
   get '/' , :provides => :html do
-    haml :index
+    haml :index, :locals => {:genre => genre, :genres => genres.genres, :wait_icon => 'icons/please_wait.gif'}
   end
 
   get '/next', :provides => :json do
-    kittens.next_random.to_json
+    #sleep 5                     # for testing loading message
+
+    kittens.next_random.sub(%r{^public/},'').to_json
   end
 
   get '/reload' do
-    Dir.chdir('public') {|cwd| kittens.reload }
+    kittens.reload
     redirect to('/')
+  end
+
+  get %r{/(\w+)} do |w|
+    if genres.genres.include?(w)
+      genre = w
+      kittens = Kittens.new("public/#{genre}")
+      redirect to('/')
+    else
+      "Unknown genre"
+    end
   end
 
 end

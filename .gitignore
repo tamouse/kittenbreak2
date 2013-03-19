@@ -1,3 +1,6 @@
 data/
-public/kittens/
+public/*
+!public/css/*
+!public/js/*
+!public/icons/*
 tmp/
