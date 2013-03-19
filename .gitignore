@@ -1,5 +1,5 @@
 data/
-public/*
+public/**/*
 !public/css/*
 !public/js/*
 !public/icons/*
