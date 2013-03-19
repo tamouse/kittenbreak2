@@ -25,11 +25,13 @@
 
     :javascript
       $("#kitten_loading").hide();
-      var next_kitten = function() {$.ajax({url: "/next"}).done(
-        function(x){
-          $("#kitten_loading").show();
-          $("#kitten_img").attr("src",x);
-          $("#kitten_loading").hide();
-        })};
+      var next_kitten = function() {
+        $("#kitten_loading").show();
+        $.ajax({url: "/next"}).done(
+          function(x){
+            $("#kitten_img").attr("src",x);
+          });
+        $("#kitten_loading").hide();
+        };
       $("#kitten_img").click(next_kitten);
       $("#kitten_img").click();
