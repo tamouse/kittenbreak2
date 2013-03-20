@@ -14,12 +14,13 @@ class Kittens
   attr_accessor :path
 
   def initialize(path='.')
-    self.path=path
+    raise "Path cannot be nil!" if path.nil?
+    self.path=File.expand_path(path, File.dirname(__FILE__))
     self.kittens
   end
 
-  def path=(path='.')
-    raise "Not a directory!" unless File.directory?(path)
+  def path=(path)
+    raise "Path #{path} is not a directory!" unless File.directory?(path)
     @path=path
   end
 

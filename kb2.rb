@@ -29,9 +29,7 @@ class KittenBreak < Sinatra::Base
   end
 
   get '/next', :provides => :json do
-    #sleep 5                     # for testing loading message
-
-    kittens.next_random.sub(%r{^public/},'').to_json
+    kittens.next_random.sub(%r{^.*/public/},'').to_json
   end
 
   get '/reload' do

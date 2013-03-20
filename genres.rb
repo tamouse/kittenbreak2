@@ -27,7 +27,7 @@ class Genres
   end
 
   def reload
-    Dir.glob("public/*").map{|f| File.basename(f)}.reject{|f| OMISSIONS.include?(f)}.sort
+    Dir.glob(File.expand_path("public")+"/*").map{|f| File.basename(f)}.reject{|f| OMISSIONS.include?(f)}.sort
   end
 
   def each &block
