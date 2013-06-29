@@ -3,6 +3,8 @@
   %head
     %title= "KittenBreak 2! #{genre}"
     %script{:src => 'http://code.jquery.com/jquery-1.9.1.min.js'}
+    %script{:src => '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'}
+    %script{:src => '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js'}      
     %link{:rel => "stylesheet", :href=>"http://twitter.github.com/bootstrap/assets/css/bootstrap.css"}
     %script{:src => 'http://twitter.github.com/bootstrap/assets/js/bootstrap.min.js'}
 
@@ -18,8 +20,8 @@
           Click on the image to see another!
     .row-fluid
       .span4.offset2
-        #kitten
-          %img#kitten_img{:width => '300',:src => wait_icon}
+        #content
+
 
     %footer.navbar.navbar-fixed-bottom
       .navbar-inner
@@ -29,15 +31,3 @@
               %a{:href => url("/#{g}")}
                 = g
             
-          
-
-    :javascript
-      var next_kitten = function() {
-        $("#kitten_img").attr("src","#{wait_icon}")
-        $.ajax({url: "/next"}).done(
-          function(x){
-            $("#kitten_img").attr("src",x);
-          });
-        };
-      $("#kitten_img").click(next_kitten);
-      $("#kitten_img").click();

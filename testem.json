@@ -1,0 +1,11 @@
+{
+    "framework": "mocha+chai",
+    "src_files": [
+	"public/js/lib/json2.js",
+	"public/js/lib/jquery-1.10.1.js",
+	"public/js/lib/underscore.js",
+	"public/js/lib/backbone.js",
+    	"public/js/backboneapp/**/*.js",
+	"spec/js/backboneapp/**/*.js"
+    ]
+}
