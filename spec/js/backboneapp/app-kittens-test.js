@@ -1,16 +1,9 @@
 var should = chai.should();
 
-describe("Application", function() {
-    it("creates a global variable for the name sapce", function() {
-	should.exist(kittenApp);
-    })
-})
-
-
 describe("Kitten Model", function() {
     describe("Initialization", function() {
 	beforeEach(function() {
-	    this.kitten = new kittenApp.Kitten();
+	    this.kitten = new Kitten();
 	})
 	it("should have an empty image link", function() {
 	    this.kitten.get('source').should.equal("");
@@ -21,8 +14,9 @@ describe("Kitten Model", function() {
 describe("Kitten View", function() {
     beforeEach(function() {
 	//this.kitten = new kittenApp.Kitten({source: "http://www.wallsave.com/wallpapers/2560x2048/anime-kittens/496315/anime-kittens-cats-praying-496315.jpg"}); 
-	this.kitten = new kittenApp.Kitten({source: "kitten.jpg"}); 
-	this.kittenView = new kittenApp.KittenView({model: this.kitten});
+	this.kitten = new Kitten({source: "kitten.jpg"}); 
+	this.kittenView = new KittenView({model: this.kitten});
+	$("<div>").attr("id","kitten_container").appendTo("body");
     })
     it("render() should return the view object", function() {
 	this.kittenView.render().should.equal(this.kittenView);
@@ -42,7 +36,7 @@ describe("Kitten View", function() {
 	})
 
 	it("should have an id of 'kitten_container'", function() {
-	    this.kittenView.$el.attr("id").should.equal("kitten_container");
+	    this.kittenView.el.id.should.equal("kitten_container");
 	})
     })
 })

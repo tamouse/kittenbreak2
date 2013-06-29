@@ -2,12 +2,14 @@
 %html{:lang => 'en'}
   %head
     %title= "KittenBreak 2! #{genre}"
-    %script{:src => 'http://code.jquery.com/jquery-1.9.1.min.js'}
-    %script{:src => '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'}
-    %script{:src => '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js'}      
+    %script{:src => 'js/lib/json2.js'}
+    %script{:src => 'js/lib/jquery-1.10.1.js'}
+    %script{:src => 'js/lib/underscore.js'}
+    %script{:src => 'js/lib/backbone.js'}      
     %link{:rel => "stylesheet", :href=>"http://twitter.github.com/bootstrap/assets/css/bootstrap.css"}
     %script{:src => 'http://twitter.github.com/bootstrap/assets/js/bootstrap.min.js'}
-
+    %script{:src => 'js/backboneapp/app-kittens.js'}
+      
   %body
     %header.navbar
       .navbar-inner
@@ -21,8 +23,11 @@
     .row-fluid
       .span4.offset2
         #content
+          #kitten_container
+            %img.kitten_image{:src => 'icons/please_wait.gif'}
 
 
+            
     %footer.navbar.navbar-fixed-bottom
       .navbar-inner
         %ul.nav.nav-pills
@@ -31,3 +36,13 @@
               %a{:href => url("/#{g}")}
                 = g
             
+    :javascript
+      $(function() {
+        var kitten = new Kitten();
+        var kittenView = new KittenView({model: kitten});
+        kittenView.render();
+        console.log("kitten.source: " + kitten.get("source"));
+        console.log("kittenView.el.nodeName: " + kittenView.el.nodeName);
+        console.log("kittenView.el.id: " + kittenView.$el.attr("id"));
+        console.log("kittenView.el.html: " + kittenView.$el.html());
+      })
