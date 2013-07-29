@@ -1,7 +1,8 @@
 var Kitten = Backbone.Model.extend({
     defaults: {
 	source: ""
-    }
+    },
+    url: "/next"
 });
 
 var KittenView = Backbone.View.extend({

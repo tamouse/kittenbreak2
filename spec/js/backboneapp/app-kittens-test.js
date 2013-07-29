@@ -8,6 +8,14 @@ describe("Kitten Model", function() {
 	it("should have an empty image link", function() {
 	    this.kitten.get('source').should.equal("");
 	})
+	it("should emulate fetching a kitten image", function() {
+	    this.ajax_stub = sinon.stub($, "ajax").yieldsTo("success",
+							    { "source": "kitten.jpg"}
+							   );
+	    this.kitten.fetch();
+	    this.kitten.get("source").should.equal("kitten.jpg");
+	    this.ajax_stub.restore();
+	})
     })
 })
 

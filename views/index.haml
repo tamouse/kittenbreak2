@@ -39,6 +39,7 @@
     :javascript
       $(function() {
         var kitten = new Kitten();
+        kitten.fetch();
         var kittenView = new KittenView({model: kitten});
         kittenView.render();
         console.log("kitten.source: " + kitten.get("source"));

@@ -6,6 +6,9 @@
 	"public/js/lib/underscore.js",
 	"public/js/lib/backbone.js",
     	"public/js/backboneapp/**/*.js",
+	"public/js/lib/chai.js",
+	"public/js/lib/sinon-chai.js",
+	"public/js/lib/sinon-1.7.3.js",
 	"spec/js/backboneapp/**/*.js"
     ]
 }

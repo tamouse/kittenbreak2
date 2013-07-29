@@ -29,7 +29,7 @@ class KittenBreak < Sinatra::Base
   end
 
   get '/next', :provides => :json do
-    kittens.next_random.sub(%r{^.*/public/},'').to_json
+    { source: kittens.next_random.sub(%r{^.*/public/},'') }.to_json
   end
 
   get '/reload' do
