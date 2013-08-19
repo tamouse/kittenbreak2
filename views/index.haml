@@ -6,10 +6,10 @@
     %script{:src => 'js/lib/jquery-1.10.1.js'}
     %script{:src => 'js/lib/underscore.js'}
     %script{:src => 'js/lib/backbone.js'}      
-    %link{:rel => "stylesheet", :href=>"http://twitter.github.com/bootstrap/assets/css/bootstrap.css"}
     %script{:src => 'http://twitter.github.com/bootstrap/assets/js/bootstrap.min.js'}
     %script{:src => 'js/backboneapp/app-kittens.js'}
       
+    %link{:rel => "stylesheet", :href=>"//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"}
   %body
     %header.navbar
       .navbar-inner
@@ -36,6 +36,7 @@
               %a{:href => url("/#{g}")}
                 = g
             
+    %script{:src => "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"}
     :javascript
       $(function() {
         var kitten = new Kitten();

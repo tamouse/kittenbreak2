@@ -18,6 +18,8 @@ require './kittens.rb'
 
 class KittenBreak < Sinatra::Base
 
+  enable :sessions, :logging
+
   genres = Genres.new
 
   genre = genres.first
