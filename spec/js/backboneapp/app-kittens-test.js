@@ -1,4 +1,20 @@
+// following needed to run tests directly under mocha and node.js
+// headless for CI/T
+
+if (typeof exports !== 'undefined' && this.exports !== exports) {
+  global.jQuery = require("jquery");
+  global.$ = jQuery;
+  global.chai = require("chai");
+  global.sinon = require("sinon");
+  chai.use(require("sinon-chai"));
+  global.jsdom = require("jsdom").jsdom;
+  var doc = jsdom("<html><body></body></html>");
+  global.window = doc.createWindow();
+}
+
 var should = chai.should();
+
+var placekitten = 'http://placekitten.com/300/300';
 
 describe("Kitten Model", function() {
     describe("Initialization", function() {
@@ -10,10 +26,10 @@ describe("Kitten Model", function() {
 	})
 	it("should emulate fetching a kitten image", function() {
 	    this.ajax_stub = sinon.stub($, "ajax").yieldsTo("success",
-							    { "source": "kitten.jpg"}
+							    { "source": placekitten }
 							   );
 	    this.kitten.fetch();
-	    this.kitten.get("source").should.equal("kitten.jpg");
+	    this.kitten.get("source").should.equal(placekitten);
 	    this.ajax_stub.restore();
 	})
     })
@@ -21,8 +37,7 @@ describe("Kitten Model", function() {
 
 describe("Kitten View", function() {
     beforeEach(function() {
-	//this.kitten = new kittenApp.Kitten({source: "http://www.wallsave.com/wallpapers/2560x2048/anime-kittens/496315/anime-kittens-cats-praying-496315.jpg"}); 
-	this.kitten = new Kitten({source: "kitten.jpg"}); 
+	this.kitten = new Kitten({source: placekitten }); 
 	this.kittenView = new KittenView({model: this.kitten});
 	$("<div>").attr("id","kitten_container").appendTo("body");
     })
@@ -37,7 +52,7 @@ describe("Kitten View", function() {
 	    this.kittenView.render();
 	})
 	it("should have a source URL", function() {
-	    this.kittenView.$el.find("img").attr("src").should.equal("kitten.jpg");
+	    this.kittenView.$el.find("img").attr("src").should.equal(placekitten);
 	})
 	it("should have a class of 'kitten_image'", function() {
 	    this.kittenView.$el.find("img").attr("class").should.equal("kitten_image");
